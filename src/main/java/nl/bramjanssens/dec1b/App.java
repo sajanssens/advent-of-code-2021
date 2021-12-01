@@ -1,4 +1,4 @@
-package nl.bramjanssens.dec1a;
+package nl.bramjanssens.dec1b;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,12 +14,15 @@ public class App {
         File file = getFileFromResource("dec1/input.txt");
         List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
 
-        int previous = Integer.MAX_VALUE;
+        int previousSum = Integer.MAX_VALUE;
         int count = 0;
-        for (String line : lines) {
-            int i = Integer.parseInt(line);
-            if (i > previous) count++;
-            previous = i;
+        for (int i = 0; i < lines.size() - 2; i++) {
+            int i1 = Integer.parseInt(lines.get(i));
+            int i2 = Integer.parseInt(lines.get(i + 1));
+            int i3 = Integer.parseInt(lines.get(i + 2));
+            int sum = i1 + i2 + i3;
+            if (sum > previousSum) count++;
+            previousSum = sum;
         }
 
         System.out.println(count);
@@ -33,6 +36,4 @@ public class App {
             return new File(resource.toURI());
         }
     }
-
-
 }
