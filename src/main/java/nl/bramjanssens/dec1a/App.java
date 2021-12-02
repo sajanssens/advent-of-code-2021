@@ -3,10 +3,11 @@ package nl.bramjanssens.dec1a;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
+
+import static nl.bramjanssens.util.Util.getFileFromResource;
 
 public class App {
 
@@ -24,15 +25,4 @@ public class App {
 
         System.out.println(count);
     }
-
-    private static File getFileFromResource(String fileName) throws URISyntaxException {
-        URL resource = App.class.getClassLoader().getResource(fileName);
-        if (resource == null) {
-            throw new IllegalArgumentException("file not found! " + fileName);
-        } else {
-            return new File(resource.toURI());
-        }
-    }
-
-
 }

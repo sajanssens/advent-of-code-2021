@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 
+import static nl.bramjanssens.util.Util.getFileFromResource;
+
 public class App {
 
     public static void main(String[] args) throws URISyntaxException, IOException {
@@ -28,12 +30,5 @@ public class App {
         System.out.println(count);
     }
 
-    private static File getFileFromResource(String fileName) throws URISyntaxException {
-        URL resource = App.class.getClassLoader().getResource(fileName);
-        if (resource == null) {
-            throw new IllegalArgumentException("file not found! " + fileName);
-        } else {
-            return new File(resource.toURI());
-        }
-    }
+
 }
