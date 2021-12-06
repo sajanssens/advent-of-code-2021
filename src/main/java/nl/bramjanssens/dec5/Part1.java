@@ -15,8 +15,6 @@ import static nl.bramjanssens.util.Util.getLines;
 
 public class Part1 {
 
-    public static final int WIDTH = 5;
-
     public static void main(String[] args) throws URISyntaxException, IOException {
         List<Vector> vectors = getVectors(getLines("dec5/testinput.txt"));
         int max = maxFrom(vectors);
