@@ -26,4 +26,8 @@ public class Util {
             return br.lines().map(Integer::parseInt).collect(toList());
         }
     }
+
+    public static int sum(int n) {
+        return n * (n + 1) / 2;
+    }
 }
