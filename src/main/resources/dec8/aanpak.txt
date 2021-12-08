@@ -1,0 +1,39 @@
+1)
+ab: 	1
+dab: 	7
+eafb:   4
+acedgfb:8
+
+2) ab is dus een 1. voor welke resterende cijfers moet ab ook aanstaan?
+
+		5/6?	ab?  dus moet een 0/3/9 zijn
+fbcad:  2/3/5	3 	(want moet 2|3|5 & 0|3|9 zijn)
+cagedb: 0/6/9	0/9
+cefabd: 0/6/9	0/9
+
+				!ab? dus moet een 2/5/6 zijn
+cdfbe:  2/3/5	2/5
+gcdfa:  2/3/5	2/5
+cdfgeb: 0/6/9	6	(want moet 0|6|9 & 2|5|6 zijn)
+
+3) abcdf is dus een 3. voor welke resterende  cijfers moet abcdf ook aanstaan?
+
+		heeft een 3?
+	0	x
+	2	x
+	5	x
+	9	V
+
+				heeft abcdf?
+cefabd: 0/9		V, dus dit is de 9
+cagedb: 0/9		   dus dan is dit is de 0
+
+cdfbe:  2/5
+gcdfa:  2/5
+
+4) de zes mist één lettertje en dat is segment rechtsboven, dus
+	cdfgeb: 6
+	letter a mist; dat is rechtsboven, dus welke heeft een a? dat is de 2!
+
+	gcdfa: 2
+	cdfbe: 5
