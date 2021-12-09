@@ -9,11 +9,11 @@ import static nl.bramjanssens.util.Util.getLines;
 
 public class Part1 {
     public static void main(String[] args) throws URISyntaxException, IOException {
-        int sum = getRiskLevels(readHeightmap(getLines("dec9/input.txt"))).stream().mapToInt(p -> p).sum();
+        int sum = lowPoints(heightmap(getLines("dec9/testinput.txt"))).stream().mapToInt(p -> p + 1).sum();
         System.out.println(sum);
     }
 
-    private static int[][] readHeightmap(List<String> lines) {
+    static int[][] heightmap(List<String> lines) {
         int size = lines.size();
         int length = lines.get(0).length();
         int[][] heightmap = new int[size][length];
@@ -28,20 +28,20 @@ public class Part1 {
         return heightmap;
     }
 
-    private static List<Integer> getRiskLevels(int[][] heightmap) {
+    static List<Integer> lowPoints(int[][] heightmap) {
         List<Integer> lowPoints = new ArrayList<>();
         for (int i = 0; i < heightmap.length; i++) {
             for (int j = 0; j < heightmap[i].length; j++) {
                 int height = heightmap[i][j];
                 if (getNeighbors(i, j, heightmap).stream().allMatch(n -> n > height)) {
-                    lowPoints.add(height + 1);
+                    lowPoints.add(height);
                 }
             }
         }
         return lowPoints;
     }
 
-    private static List<Integer> getNeighbors(int i, int j, int[][] table) {
+    static List<Integer> getNeighbors(int i, int j, int[][] table) {
         List<Integer> neightbours = new ArrayList<>();
         int height = table.length;
         int width = table[0].length;
