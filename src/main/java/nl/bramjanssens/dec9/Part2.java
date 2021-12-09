@@ -7,25 +7,31 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.Collections.reverse;
+import static java.util.Comparator.comparingInt;
 import static nl.bramjanssens.dec9.Part1.heightmap;
 import static nl.bramjanssens.util.Util.getLines;
 
 public class Part2 {
     public static void main(String[] args) throws URISyntaxException, IOException {
-        int[][] heightmap = heightmap(getLines("dec9/testinput.txt"));
-        findBasins(lowPoints(heightmap), heightmap);
+        int[][] heightmap = heightmap(getLines("dec9/input.txt"));
+        List<Basin> basins = findBasins(lowPoints(heightmap), heightmap);
+        List<Basin> basinsSorted = sortBySize(basins);
+        Integer answer = multiplyFirstThreeSizes(basinsSorted);
+        System.out.println(answer);
     }
 
-    private static void findBasins(List<Point> lowPoints, int[][] heightmap) {
+    private static List<Basin> findBasins(List<Point> lowPoints, int[][] heightmap) {
         List<Basin> basins = new ArrayList<>();
 
-        Point lowPoint = lowPoints.get(2);
-        Set<Point> basinPoints = new HashSet<>();
-        basinPoints.add(lowPoint);
+        for (Point lowPoint : lowPoints) {
+            Set<Point> basinPoints = new HashSet<>();
+            basinPoints.add(lowPoint);
+            findBasinPoints(heightmap, lowPoint, basinPoints);
+            basins.add(new Basin(basinPoints));
+        }
+        return basins;
 
-        findBasinPoints(heightmap, lowPoint, basinPoints);
-        basins.add(new Basin(basinPoints));
-        System.out.println(basins);
     }
 
     private static void findBasinPoints(int[][] heightmap, Point p, Set<Point> basinPoints) {
@@ -62,6 +68,16 @@ public class Part2 {
         if (i < height - 1) neighbors.add(new Point(i + 1, j, table[i + 1][j])); // down
 
         return neighbors;
+    }
+
+    private static List<Basin> sortBySize(List<Basin> basins) {
+        List<Basin> basinsSorted = new ArrayList<>(basins.stream().sorted(comparingInt(b -> b.points().size())).toList());
+        reverse(basinsSorted);
+        return basinsSorted;
+    }
+
+    private static Integer multiplyFirstThreeSizes(List<Basin> basinsSorted) {
+        return basinsSorted.stream().limit(3).map(b -> b.points().size()).reduce(1, (a, b) -> a * b);
     }
 }
 
