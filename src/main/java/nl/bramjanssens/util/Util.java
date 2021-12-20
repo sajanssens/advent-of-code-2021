@@ -17,8 +17,12 @@ public class Util {
         return new File(Util.class.getClassLoader().getResource(fileName).toURI());
     }
 
-    public static List<String> getLines(String fileName) throws URISyntaxException, IOException {
-        return Files.readAllLines(getFileFromResource(fileName).toPath(), StandardCharsets.UTF_8);
+    public static List<String> getLines(String fileName) {
+        try {
+            return Files.readAllLines(getFileFromResource(fileName).toPath(), StandardCharsets.UTF_8);
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static List<Integer> loadInput() throws IOException {
@@ -30,4 +34,9 @@ public class Util {
     public static int sum(int n) {
         return n * (n + 1) / 2;
     }
+
+    public static boolean between(int n, int min, int max) {
+        return n >= min && n <= max;
+    }
+
 }
