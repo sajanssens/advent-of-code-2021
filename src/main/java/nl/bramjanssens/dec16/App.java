@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.stream.Collectors.joining;
 import static nl.bramjanssens.util.Util.getLines;
 
 public class App {
@@ -22,6 +23,9 @@ public class App {
         readPackets(bits, position, packets);
 
         System.out.println(calculateVersionSum(packets));
+
+        Long result = packets.stream().findFirst().map(Packet::getValue).orElse(0L);
+        System.out.println(result);
     }
 
     private static void readPackets(String bits, Counter p, List<Packet> packets) {
@@ -125,9 +129,11 @@ class Counter {
 }
 
 @Data
-class Packet {
+abstract class Packet {
     String version;
     String type;
+
+    abstract long getValue();
 }
 
 @Data @ToString(callSuper = true)
@@ -137,6 +143,11 @@ class Literal extends Packet {
 
     public void add(Bitgroup b) {
         this.bitgroups.add(b);
+    }
+
+    @Override long getValue() {
+        String value = bitgroups.stream().map(b -> b.nextFourBits).collect(joining());
+        return Long.parseLong(value, 2);
     }
 
     @Data @AllArgsConstructor
@@ -153,4 +164,17 @@ class Operator extends Packet {
     int numberOfSubPackets;
 
     List<Packet> subpackets = new ArrayList<>();
+
+    @Override long getValue() {
+        return switch (type) {
+            case "0" -> subpackets.stream().mapToLong(Packet::getValue).sum();
+            case "1" -> subpackets.stream().mapToLong(Packet::getValue).reduce(1, (subtotal, v) -> subtotal * v);
+            case "2" -> subpackets.stream().mapToLong(Packet::getValue).min().orElse(0);
+            case "3" -> subpackets.stream().mapToLong(Packet::getValue).max().orElse(0);
+            case "5" -> subpackets.get(0).getValue() > subpackets.get(1).getValue() ? 1 : 0;
+            case "6" -> subpackets.get(0).getValue() < subpackets.get(1).getValue() ? 1 : 0;
+            case "7" -> subpackets.get(0).getValue() == subpackets.get(1).getValue() ? 1 : 0;
+            default -> 0;
+        };
+    }
 }
